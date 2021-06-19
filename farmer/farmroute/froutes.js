@@ -42,6 +42,8 @@ router.post("/farmer", async (req, res) => {
   }
 });
 
+// router.post("/farmer/login", (req,res) => {},
+
 router.put("/farmer/:id", (req, res) => {
   Farm.findByIdAndUpdate(req.params.id, req.body)
     .then((result) => {
