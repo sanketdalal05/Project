@@ -1,13 +1,12 @@
 const express = require('express');
 const farmer = express();
-const db = require('./model/farmdb');     // require farmdb file database connevtivity
-
+require('./model/farmdb');     // require farmdb file database connevtivity
+const router = require('./farmroute/froutes');
 
 const port = process.env.PORT || 3000;
-farmer.get("/", (req,res)=>{
-  res.send("hello farmer here")
-  console.log("hello farmer here");
-})
+
+farmer.use(express.json());
+farmer.use(router);
 
 farmer.listen(port, () => {
   console.log(`listening on. ${port}`);
