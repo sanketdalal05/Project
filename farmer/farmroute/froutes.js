@@ -4,8 +4,18 @@ const router = express.Router();
 const Farm = require("../model/farmmodel");
 
 
-// get request.
-
+/**
+ * @swagger
+ * /farmer:
+ *   get:
+ *     summary: "Find farmer"
+ *     parameters: 
+ *       type: object
+ *       required: true
+ *       description: "farmers"
+ *     responses:
+ *       200:
+ */
 router.get("/", (req, res) => {
   res.send("hello farmer here");
 });
