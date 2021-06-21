@@ -36,10 +36,10 @@ const swaggerDocs = swaggerJsDoc(options);
  *          '200':
  *              description: A successful response
  */
-admin.get('/', (req, res) => {
-    res.send('Hello Admin here');
-    console.log("admin here");
-  })
+// admin.get('/', (req, res) => {
+//     res.send('Hello Admin here');
+//     console.log("admin here");
+//   })
 admin.use("/admin",router);
 admin.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocs, { explorer: true }));
 
