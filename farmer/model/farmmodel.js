@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
-const validator = require('mongoose-validator')
+const validator = require('mongoose-validator');
+const jwt = require('jsonwebtoken');
+const bcrypt = ('bcryptjs');
+
+
 const farmSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -13,7 +17,7 @@ const farmSchema = new mongoose.Schema({
     validate: [
       validator({
         validator: 'isEmail',
-        message: 'Oops..please enter valid email'
+        message: 'please enter valid email'
       })]
   },
   password: {
@@ -51,9 +55,30 @@ const farmSchema = new mongoose.Schema({
   },
   UPI: {
     upiid: String
-  }
+  },
 
-});
+}, { timestamps: true });
+
+//generating token
+// farmSchema.methods.generateAuthToken = async function(){
+//   try {
+//     //console.log(this.email);
+//     const token = jwt.sign({email:this.email},"asdfgvbhjnkiuytrghjklopnmhgtwere");
+//     this.tokens = this.tokens.concat({token});
+//     await this.save();
+//     return token;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+// hashing password before save 
+// farmSchema.pre('save', async function (next) {
+//   if (this.isModified('password')) {
+//     this.password = await bcrypt.hash(this.password, 10);
+//   }
+//   next();
+// })
+
 //  creating a new collection
 const Farm = mongoose.model("farmer", farmSchema);
 

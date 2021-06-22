@@ -1,87 +1,105 @@
 const express = require("express")
-const router = express.Router();
-
-const Farm = require("../model/farmmodel");
+let router = express.Router();
+const fcontroller = require('../controller/farmcontroller');
 
 
 /**
  * @swagger
  * /farmer:
  *   get:
- *     summary: "Find farmer"
- *     parameters: 
- *       type: object
- *       required: true
- *       description: "farmers"
  *     responses:
  *       200:
+ *         description: "all farmers"
  */
-router.get("/", (req, res) => {
-  res.send("hello farmer here");
-});
+router.get('/', fcontroller.getfarmer);
 
-router.get('/farmer', (req, res) => {
-  Farm.find().then((result) => {
-    res.status(201).send(result)
-  }).catch(error => {
-    res.send(error);
-  });
 
-});
+/**
+ * @swagger
+ * /farmer:
+ *   post:
+ *     requestBody:
+ *       content:
+ *         application/json: 
+ *             schema:
+ *                type: object
+ *     responses:
+ *       200:
+ *         description: post
+ */
+   
+  router.post("/",fcontroller.createfarmer);
 
-router.get('/farmer/:id', (req, res) => {
-  Farm.findById(req.params.id)
-    .then((result) => {
-      res.status(201).send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+/**
+ * @swagger
+ * /farmer/{id}:
+ *   get:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *     description: farmer get by id
+ *     responses:
+ *        "200":
+ *         description: get farmer by id
+ */
 
-})
-// creat a new farmer 
-router.post("/farmer", async (req, res) => {
-  console.log(req.body);
-  const farm = new Farm(req.body);
 
-  try {
-    await farm.save();
-    res.status(201).send(farm);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+router.get('/:id', fcontroller.getonefarmer);
 
-// router.post("/farmer/login", (req,res) => {},
 
-router.put("/farmer/:id", (req, res) => {
-  Farm.findByIdAndUpdate(req.params.id, req.body)
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-});
+/**
+ * @swagger
+ * /farmer/{id}:
+ *   patch:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        type: string
+ *     requestBody:
+ *       content:
+ *         application/json: 
+ *             schema:
+ *                type: object
+ *     responses:
+ *       200:
+ *         description: get farmer by id
+ */
+router.patch('/:id', fcontroller.farmpatch);
 
-router.delete("/farmer/:id", (req, res) => {
-  Farm.findByIdAndRemove(req.params.id, req.body)
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-});
+/**
+ * @swagger
+ * /farmer/{id}:
+ *   put:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *     requestBody:
+ *       content:
+ *         application/json: 
+ *             schema:
+ *                type: object
+ *     responses:
+ *         200:
+ *           description: put farmer by id
+ */
+router.put('/:id', fcontroller.farmupdate);
 
-router.patch("/farmer/:id", async (req, res) => {
-  try {
-    const _id = req.params.id;
-    const fpatch = await Farm.findByIdAndUpdate(_id, req.body, { new: true });
-    res.status(201).send(fpatch);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+
+/**
+ * @swagger
+ * /farmer/{id}:
+ *   delete:
+ *     summary: delete a farmer
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *     responses:
+ *        "200":
+ *         description: get farmer by id
+ */
+  router.delete('/:id',fcontroller.farmdelete)
 
 module.exports = router;
