@@ -8,11 +8,12 @@ const cropschema = new mongoose.Schema({
   Crop_Type: {
     type: String,
     trim: true,
+    required: [true, 'enter crop_type']
   },
   Price: {
     type: Number,
     trim: true,
-    required: [true, "enter crop price per kg"]
+    required: [true, "enter crop price"]
   },
   Crop_quantity: {
     type: Number,

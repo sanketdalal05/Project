@@ -1,76 +1,87 @@
 const express = require("express")
-const router = new express.Router();
+const Ccontroller = require("../controller/cropcontroller")
+const router = express.Router();
 
-const Crop = require("../model/cropmodel");
-
-
-// get request
-router.get('/', (req, res) => {
-    res.send('Hello crop here');
-  })
-
-// get request
-router.get('/crop', (req, res) => {
-    Crop.find().then((result) => {
-      res.send(result)
-    }).catch((error) => {
-      res.status(500).send(error);
-    })
-  
-  })
-  
-  router.get('/crop/:id', (req, res) => {
-    Crop.findById(req.params.id)
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  
-  })
-  
-  router.post("/crop", async (req, res) => {
-    console.log(req.body);
-    const Cropi = new Crop(req.body);
-  
-    try {
-      await Cropi.save();
-      res.status(201).send(Cropi);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  });
-  
-//   router.put("/crop/:id", (req, res) => {
-//     Crop.findByIdAndUpdate(req.params.id, req.body)
-//       .then((result) => {
-//         res.send(result);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       })
-//   });
-  
-  router.delete("/crop/:id", (req, res) => {
-    Crop.findByIdAndRemove(req.params.id, req.body)
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  });
-  
-  router.patch("/crop/:id", async (req, res) => {
-    try {
-      const _id = req.params.id;
-      const Cpatch = await Crop.findByIdAndUpdate(_id,req.body, {new:true});
-      res.status(201).send(Cpatch);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  });
+/**
+ * @swagger
+ * /crop:
+ *   get:
+ *     responses:
+ *       200:
+ *         description: "all farmers"
+ */
+router.get('/', Ccontroller.getcrops);
 
 
-  module.exports = router;
+/**
+ * @swagger
+ * /crop:
+ *   post:
+ *     requestBody:
+ *       content:
+ *         application/json: 
+ *             schema:
+ *                type: object
+ *     responses:
+ *       200:
+ *         description: post
+ */
+
+router.post("/", Ccontroller.postcrop);
+
+/**
+ * @swagger
+ * /crop/{id}:
+ *   get:
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *     description: farmer get by id
+ *     responses:
+ *        "200":
+ *         description: get farmer by id
+ */
+
+router.get('/:id', Ccontroller.onecrop);
+
+
+/**
+ * @swagger
+ * /crop/{id}:
+ *   patch:
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        type: string
+ *     requestBody:
+ *       content:
+ *         application/json: 
+ *             schema:
+ *                type: object
+ *     responses:
+ *       200:
+ *         description: get farmer by id
+ */
+router.patch('/:id', Ccontroller.crop_patch);
+
+/**
+ * @swagger
+ * /crop/{id}:
+ *   delete:
+ *     summary: delete a crop
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         type: string
+ *     responses:
+ *         200:
+ *           description: get delete by id
+ */
+router.delete('/:id', Ccontroller.crop_delete);
+
+// router.get('/', (req, res) => {
+//     res.send('Hello crop here');
+//   })
+
+module.exports = router;
