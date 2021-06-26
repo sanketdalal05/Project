@@ -5,7 +5,8 @@ const url = "mongodb+srv://SD-pro1:sdp1@cluster1.p4muh.mongodb.net/dealer?retryW
 const connectionParams={
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true 
+    useUnifiedTopology: true,
+    useFindAndModify: false
 }
 mongoose.connect(url,connectionParams)
     .then( () => {
