@@ -50,6 +50,10 @@ const dealSchema = new mongoose.Schema({
             required: [true, "please enter pincode"],
         }
     },
+    cropscart: {
+		type: Array,
+		required: true
+	}
 
 }, { timestamps: true });
 

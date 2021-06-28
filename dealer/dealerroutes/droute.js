@@ -46,6 +46,8 @@ const middleware = require('../middleware/middle');
   */
 
  router.post("/login",middleware, dealcontroller.dlogin);
+
+ router.post("/cropcart",dealcontroller.cartpost);
  
  /**
   * @swagger

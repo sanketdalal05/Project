@@ -1,5 +1,6 @@
 const deal = require("../model/dealermodel");
 const bcrypt = require('bcryptjs');
+const axios = require('axios')
 
 // to get all 
 exports.dealerAll = (req, res) => {
@@ -33,22 +34,40 @@ exports.postDeal = async (req, res) => {
     }
 };
 
+exports.cartpost = async (req, res) => {
+    try {
+        const cropResponse = await axios.post("http://localhost:8080/crop", req.body)
+        if (cropResponse.status === 200) {
+            deal.findById(req.body.customerid, (err, user) => {
+                user.cropscart.push(cropResponse.data._id)
+                user.save().then(() => {
+                    res.send(`crop added `)
+                }).catch((err) => {
+                    res.send("error")
+                })
+            })
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 exports.dlogin = (req, res) => {
     console.log(req.body.email);
 
-    try{
+    try {
         const Em = req.body.email;
         const pass = req.body.password;
 
-        const dfind = deal.findOne({email:Em})
-        const dmatch = bcrypt.compare(pass,dfind.password);
-        if (dmatch){
+        const dfind = deal.findOne({ email: Em })
+        const dmatch = bcrypt.compare(pass, dfind.password);
+        if (dmatch) {
             res.send("login success")
         }
     }
-        catch(error)  {
-            res.status(400).send(error);
-        }
+    catch (error) {
+        res.status(400).send(error);
+    }
 }
 // to getby id
 exports.dealerbyid = (req, res) => {
@@ -82,4 +101,5 @@ exports.deal_delete = (req, res) => {
         .catch((err) => {
             res.status(400).send("not done");
         })
-};
+}
+

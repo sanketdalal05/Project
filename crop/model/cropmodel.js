@@ -5,9 +5,9 @@ const cropschema = new mongoose.Schema({
     required: [true, 'Name field is required'],
     trim: true
   },
-  customerid:{
+  customerid: {
     type: mongoose.SchemaTypes.ObjectId,
-    required: [true,'enter customer id']
+    required: [true, 'enter customer id']
   },
   Crop_Type: {
     type: String,
