@@ -14,7 +14,7 @@ exports.dealerAll = (req, res) => {
 // to post
 exports.postDeal = async (req, res) => {
     try {
-        req.body.password = await bcrypt.hash(req.body.password, 10);
+        // req.body.password = await bcrypt.hash(req.body.password, 10);
         const Del = new deal(req.body);
         //json web token
         const token = await Del.generateAuthToken();
@@ -36,7 +36,7 @@ exports.postDeal = async (req, res) => {
 
 exports.cartpost = async (req, res) => {
     try {
-        const cropResponse = await axios.post("http://localhost:8080/crop", req.body)
+        const cropResponse = await axios.post("http://localhost:7000/crop", req.body)
         if (cropResponse.status === 200) {
             deal.findById(req.body.customerid, (err, user) => {
                 user.cropscart.push(cropResponse.data._id)
@@ -52,23 +52,60 @@ exports.cartpost = async (req, res) => {
     }
 }
 
-exports.dlogin = (req, res) => {
-    console.log(req.body.email);
-
+exports.deallogin = async (req, res) => {
     try {
-        const Em = req.body.email;
+        const email = req.body.email;
         const pass = req.body.password;
 
-        const dfind = deal.findOne({ email: Em })
-        const dmatch = bcrypt.compare(pass, dfind.password);
-        if (dmatch) {
-            res.send("login success")
+        const user = await deal.findOne({ email: email });
+        //bcrypt
+        const isMatch = await bcrypt.compare(pass, user.password);
+        //jwt
+        const token = await user.generateAuthToken();
+        //cookies
+        res.cookie('jwt', token, {
+            expires: new Date(Date.now() + 3600000),
+            httpOnly: true
+        });
+        //console.log(token); 
+        if (isMatch) {
+            res.status(201).send('login succesfull');
+        } else {
+            res.send("invalide password");
         }
+    } catch (error) {
+        res.status(400).send("invalide emailId");
     }
-    catch (error) {
-        res.status(400).send(error);
-    }
+
 }
+// exports.dlogin = async (req, res) => {
+
+
+//     // console.log(req.body.email);
+
+//     try {
+//         const Em = req.body.email;
+//         const pass = req.body.password;
+
+
+//         const dfind = deal.findOne({ email: Em })
+//         const dmatch = await bcrypt.compare(pass, dfind.password);
+
+//         const token = await Del.generateAuthToken();
+//         //cookies
+//         res.cookie('jwt', token, {
+//             expires: new Date(Date.now() + 200000),
+//             httpOnly: true
+//         });
+//         if (dmatch) {
+//             res.send("login success")
+//         }
+//     }
+//     catch (error) {
+//         console.log(error)
+//         res.status(400).send(error);
+//     }
+// }
 // to getby id
 exports.dealerbyid = (req, res) => {
     deal.findById(req.params.id)
@@ -76,7 +113,7 @@ exports.dealerbyid = (req, res) => {
             res.status(200).send(result);
         })
         .catch((err) => {
-            res.status(500)(err);
+            res.status(400).send(err);
         })
 };
 
@@ -103,3 +140,10 @@ exports.deal_delete = (req, res) => {
         })
 }
 
+// exports.viewallcrop = (req,res)=>{
+//     axios.get('http://localhost:7000/crop/').then((response)=>{
+//         res.send(response.data)
+//     }).catch((error)=>{
+//         console.log(error);
+//     })
+// }

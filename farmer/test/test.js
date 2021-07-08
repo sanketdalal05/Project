@@ -71,7 +71,7 @@ describe('patch /farmer/',()=>{
 //delete
 describe('farmer/delete',()=>{
     it('it should delete data',(done)=>{
-        id = '60cd056c7bcb7f3e78e75332';
+        id = '';
         chai.request(farmer)
         .delete('/farmer/'+id)
         .end((err,response)=>{

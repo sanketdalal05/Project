@@ -62,14 +62,19 @@ dealSchema.methods.generateAuthToken = async function(){
     try {
       //console.log(this.email);
       const token = jwt.sign({email:this.email},'asdfghjklpoiuytrewqzxcvbnmasdfgh');
-      //this.tokens = this.tokens.concat({token});
-      //await this.save();
       return token;
     } catch (error) {
       console.log(error);
     }
   }
 
+//bcrypting
+dealSchema.pre('save',async function(next){
+    if(this.isModified('password')){
+    this.password = await  bcrypt.hash(this.password,10);
+    }
+    next();
+})
 
 const dealer = mongoose.model('dealer', dealSchema);
 module.exports = dealer;
