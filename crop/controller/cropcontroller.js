@@ -18,20 +18,20 @@ exports.postcrop = async (req, res) => {
         await Cropi.save();              //saving to database under collection
         res.status(200).send(Cropi);
     } catch (error) {
-        res.status(500).send(error);
+        res.status(400).send(error);
     }
 };
 
 // // to getby id
-// exports.onecrop = (req, res) => {
-//     Crop.findById(req.params.id)
-//         .then((result) => {
-//             res.status(200).send(result);
-//         })
-//         .catch((err) => {
-//             res.status(500)(err);
-//         })
-// };
+exports.onecrop = (req, res) => {
+    Crop.findById(req.params.id)
+        .then((result) => {
+            res.status(200).send(result);
+        })
+        .catch((err) => {
+            res.status(500)(err);
+        })
+};
 
 // patch crop
 exports.crop_patch = async (req, res) => {
@@ -55,3 +55,17 @@ exports.crop_delete = (req, res) => {
         })
 };
 
+exports.cropname = async (req,res) => {
+    try{
+        Crop.find({Crop_name: req.params.name})
+        .then((result) => {
+            res.status(200).send(result);
+        })
+        .catch((err) => {
+            res.status(400).send("error in loading name");
+        })
+    }
+    catch(err) {
+        console.log(err)
+    }
+}

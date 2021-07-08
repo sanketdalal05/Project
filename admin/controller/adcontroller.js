@@ -1,4 +1,5 @@
 const adm = require("../model/admmodel");
+const axios = require('axios');
 
 exports.findall = (req, res) => {
     adm.find()
@@ -56,6 +57,14 @@ exports.remove = (req, res) => {
             res.status(500).send(err);
         })
 };
+
+// exports.addfarmer = (req,res)=>{
+//     axios.post('http://localhost:3000/farmer/',req.body).then((response)=>{
+//         res.send(response.data);
+//     })
+// }
+
+
 
 // exports.patch = (async (req, res) => {
 //     try {

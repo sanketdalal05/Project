@@ -5,7 +5,7 @@ const swaggerUi = require('swagger-ui-express');
 const croproute = require("./croproute/croutes");
 
 const crop = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 7000;
 
 crop.use(express.json());
 

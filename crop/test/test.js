@@ -36,10 +36,11 @@ describe('get/crop by id', () => {
 describe('post/crop', () => {
     it('it should post data', (done) => {
         user = {
-            Crop_name: "moog",
-            Crop_Type: "grains",
-            Price: 2000,
-            Crop_quantity: 2,
+            Crop_name: "makaa",
+            farmerid:"60e0111f7a588a80b4c9bef0",
+            Crop_Type: "crop",
+            Price: 3000,
+            Crop_quantity: 5,
         }
         chai.request(crop)
             .post('/crop/')

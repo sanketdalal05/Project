@@ -1,6 +1,7 @@
 const express = require("express")
-let router = express.Router();
+const router = express.Router();
 const fcontroller = require('../controller/farmcontroller');
+// const authentication = require ("../middleware/farmauth");   
 
 
 /**
@@ -11,7 +12,7 @@ const fcontroller = require('../controller/farmcontroller');
  *       200:
  *         description: "all farmers"
  */
-router.get('/', fcontroller.getfarmer);
+router.get('/',fcontroller.getfarmer);
 
 
 /**
@@ -25,10 +26,51 @@ router.get('/', fcontroller.getfarmer);
  *                type: object
  *     responses:
  *       200:
- *         description: post
+ *         description: signup
  */
    
   router.post("/",fcontroller.createfarmer);
+
+
+//  /**
+//  * @swagger
+//  * /farmer/login:
+//  *   post:
+//  *     requestBody:
+//  *       content:
+//  *         application/json:
+//  *           schema:
+//  *             type: object                      
+//  *     responses:
+//  *       200:
+//  *         description: login
+//  */ 
+//   router.post("/login",fcontroller.farmlogin);
+
+// /**
+//  * @swagger
+//  * /farmer/logout:
+//  *   post:
+//  *     requestBody:
+//  *       content:
+//  *         application/json:
+//  *           schema:
+//  *             type: object                      
+//  *     responses:
+//  *       200:
+//  *         description: logout
+//  */ 
+
+  // router.get('/logout', async(req,res) => {
+  //   try{
+  //     res.clearCookie('jwt');
+  //     res.send('logout success');
+  //   }
+  //   catch (error){
+  //     console.log(error);
+  //   }
+  // })
+
 
 /**
  * @swagger
@@ -101,5 +143,9 @@ router.put('/:id', fcontroller.farmupdate);
  *         description: get farmer by id
  */
   router.delete('/:id',fcontroller.farmdelete)
+
+
+
+  router.post("/addcrop",fcontroller.faddcrop);
 
 module.exports = router;

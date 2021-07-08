@@ -5,14 +5,14 @@ const cropschema = new mongoose.Schema({
     required: [true, 'Name field is required'],
     trim: true
   },
-  customerid: {
+  farmerid: {
     type: mongoose.SchemaTypes.ObjectId,
     required: [true, 'enter customer id']
   },
   Crop_Type: {
     type: String,
     trim: true,
-    required: [true, 'enter crop_type']
+    // required: [true, 'enter crop_type']
   },
   Price: {
     type: Number,
@@ -21,6 +21,10 @@ const cropschema = new mongoose.Schema({
   Crop_quantity: {
     type: Number,
     required: [true, "enter crop quantity"]
+  },
+  customerid: {
+    type: mongoose.SchemaTypes.ObjectId,
+    // required: [true, 'enter customer id']
   }
 });
 //  creating a new collection

@@ -8,7 +8,7 @@ const router = express.Router();
  *   get:
  *     responses:
  *       200:
- *         description: "all farmers"
+ *         description: "all "
  */
 router.get('/', Ccontroller.getcrops);
 
@@ -80,8 +80,10 @@ router.patch('/:id', Ccontroller.crop_patch);
  */
 router.delete('/:id', Ccontroller.crop_delete);
 
+router.get('/name',Ccontroller.cropname);
+
 // router.get('/', (req, res) => {
 //     res.send('Hello crop here');
-//   })
+//   })-
 
 module.exports = router;

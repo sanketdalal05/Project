@@ -1,7 +1,8 @@
 const express = require("express")
 const dealcontroller = require('../controller/dcontroller');
 const router = express.Router();
-const middleware = require('../middleware/middle');
+const axios = require('axios')
+// const middleware = require('../middleware/middle');
 
 /**
  * @swagger
@@ -13,6 +14,8 @@ const middleware = require('../middleware/middle');
  */
  router.get('/', dealcontroller.dealerAll);
 
+
+//  router.get('/crop', dealcontroller.cropdetails);
 
  /**
   * @swagger
@@ -30,6 +33,23 @@ const middleware = require('../middleware/middle');
  
  router.post("/register", dealcontroller.postDeal);
 
+ router.get('/crop/get',(req,res)=>{
+    axios.get('http://localhost:7000/crop/').then((response)=>{
+        res.send(response.data)
+    }).catch((error)=>{
+        console.log(error);
+    })
+})
+
+ router.get('/crop/:id',(req,res)=>{
+    const id = req.params.id
+    axios.get('http://localhost:7000/crop/'+id).then((response)=>{
+        res.send(response.data);
+    }).catch((error)=>{
+        console.log(error);
+    })
+})
+
  
  /**
   * @swagger
@@ -45,7 +65,7 @@ const middleware = require('../middleware/middle');
   *         description: post
   */
 
- router.post("/login",middleware, dealcontroller.dlogin);
+ router.post("/login",dealcontroller.deallogin);
 
  router.post("/cropcart",dealcontroller.cartpost);
  
@@ -63,8 +83,11 @@ const middleware = require('../middleware/middle');
   *         description: get dealer by id
   */
  
- router.get('/:id', dealcontroller.dealerbyid);
+router.get('/:id', dealcontroller.dealerbyid);
  
+// router.get('/getcrop',dealcontroller.viewallcrop);
+
+
  
  /**
   * @swagger

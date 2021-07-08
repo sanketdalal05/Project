@@ -6,14 +6,12 @@ const dbs = require('./farmroute/froutes');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-const login = require('./farmroute/loginroute')
+// const cookieParser = require('cookie-parser');
 
 const port = process.env.PORT || 3000;
 
 farmer.use(express.json());
-
-
-farmer.use("farmer/login", login)
+// farmer.use(cookieParser())
 
 const options = {
   definition: {
