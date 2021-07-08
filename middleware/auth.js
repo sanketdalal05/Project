@@ -16,4 +16,4 @@ const authad = async(req,res,next)=>{
     console.log(error);
   }
 }
-module.exports = authad;
+module.exports = authad;        //to export module
