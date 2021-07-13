@@ -1,1 +1,1 @@
-Case Study Implementation.
+Case Study Implementation. (for Apigateway (nginx) used )
